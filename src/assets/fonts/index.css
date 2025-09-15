@@ -1,0 +1,11 @@
+@font-face {
+  font-family: "Inter";
+  src: url("./inter/inter.ttf") format("ttf");
+  font-display: swap;
+}
+@font-face {
+  font-family: "Inter";
+  src: url("./inter/inter-italic.ttf") format("ttf");
+  font-style: italic;
+  font-display: swap;
+}
