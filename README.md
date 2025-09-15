@@ -1,69 +1,128 @@
-# React + TypeScript + Vite
+# Authentication Task – Full Task Documentation
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Overview
 
-Currently, two official plugins are available:
+This project implements a complete **Authentication System** with both **Backend** and **Frontend** integration.  
+It includes features such as signup, login, token refresh, session management, and secure route protection.  
+The backend is powered by **NestJS, TypeScript, MongoDB (local via Docker)**, and the frontend is built with a **React-based atomic structure**.  
+The project also provides a **Swagger API documentation** and is deployed for live testing.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## Expanding the ESLint configuration
+## Backend
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Tech Stack
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- **NestJS** (TypeScript)
+- **MongoDB** (local, containerized with Docker)
+- **Swagger** (API documentation)
+- **Security Middleware**
+  - Helmet
+  - Cookie Parser
+  - Throttler (rate limiting)
+  - CORS configuration
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+### Swagger Endpoints
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+#### **POST** `/auth/signup`
+
+**Request Body**
+
+```json
+{
+  "email": "user@example.com",
+  "password": "StrongP@ssw0rd",
+  "repassword": "StrongP@ssw0rd",
+  "name": "Ahmed Mohamed"
+}
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+**Response**
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- `201 Created`
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+---
+
+#### **POST** `/auth/login`
+
+**Request Body**
+
+```json
+{
+  "email": "user@example.com",
+  "password": "StrongP@ssw0rd",
+  "rememberMe": true
+}
 ```
+
+**Response**
+
+- `200 OK`
+
+---
+
+#### **POST** `/auth/refresh`
+
+**Response**
+
+- `201 Created`
+
+---
+
+#### **GET** `/auth/get_user`
+
+**Response**
+
+- `200 OK`
+
+---
+
+#### **POST** `/auth/report_refresh_stolen`
+
+**Description**
+Invalidate stolen refresh token and keep the current session active.
+All other sessions will be logged out once their access token expires, the page is refreshed, or an authenticated action is attempted.
+
+**Response**
+
+- `201 Created`
+
+---
+
+#### **POST** `/auth/logout`
+
+**Response**
+
+- `201 Created`
+
+---
+
+#### **GET** `/dashboard/content` (Protected)
+
+**Response**
+
+- `200 OK`
+
+---
+
+## Frontend
+
+### Features
+
+- **Route Protection**
+
+  - If a user tries to access any route, authentication and authorization are verified.
+  - If logged in and navigates to `login`/`signup`, they are redirected to the dashboard.
+  - If not authenticated, accessing protected routes redirects them back to `login`.
+
+- **Atomic Design Structure**
+  - Organized and scalable folder structure for components.
+
+---
+
+## Deployment
+
+- **Frontend:** [Vercel Deployment](https://auth-frontend-eight-zeta.vercel.app/)
+- **Backend:** [Render Deployment](https://auth-backend-v6f5.onrender.com)
+
+  > ⚠️ Note: The Render free instance spins down with inactivity, which can delay requests by \~50 seconds.
