@@ -101,8 +101,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   if (!isFinished) {
     return (
-      <div className="font-heading-6 w-screen h-screen flex items-center justify-center">
-        Loading...
+      <div className="font-heading-6 w-screen h-screen flex items-center justify-center max-w-[400px] px-3">
+        Loading... (The backend is hosted on Render free tier, which spins down
+        when inactive and may take ~50s to respond. For faster performance, you
+        can run the app locally.)
       </div>
     );
   }
