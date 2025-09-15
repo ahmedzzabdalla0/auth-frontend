@@ -10,7 +10,6 @@ export const useAuthForm = (formId: "login" | "signup") => {
   } = useAuth();
   const [state, dispatch] = useReducer(authReducer, createInitialState(formId));
 
-  // Handle form field changes
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
     dispatch({
@@ -20,13 +19,11 @@ export const useAuthForm = (formId: "login" | "signup") => {
     });
   };
 
-  // Validate and submit form
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (state.isSubmitting) return;
 
-    // Client-side validation
     const validationErrors = validateForm(state.form, formId);
     if (Object.keys(validationErrors).length > 0) {
       dispatch({ type: "SET_ERRORS", errors: validationErrors });
@@ -37,15 +34,12 @@ export const useAuthForm = (formId: "login" | "signup") => {
     dispatch({ type: "SET_SUBMITTING", isSubmitting: true });
 
     try {
-      // Make auth request
       const error = await handleAuthRequest(state.form, formId);
 
       if (error) {
-        // Handle server errors
         const serverErrors = parseServerErrors(error);
         dispatch({ type: "SET_ERRORS", errors: serverErrors });
       } else {
-        // Success - check auth status
         checkAuthHandler();
       }
     } finally {
