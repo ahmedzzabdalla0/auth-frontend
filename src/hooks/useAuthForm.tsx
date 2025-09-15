@@ -40,7 +40,7 @@ export const useAuthForm = (formId: "login" | "signup") => {
         const serverErrors = parseServerErrors(error);
         dispatch({ type: "SET_ERRORS", errors: serverErrors });
       } else {
-        checkAuthHandler();
+        await checkAuthHandler();
       }
     } finally {
       dispatch({ type: "SET_SUBMITTING", isSubmitting: false });
