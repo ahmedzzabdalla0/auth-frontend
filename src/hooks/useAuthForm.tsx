@@ -3,7 +3,6 @@ import { useAuth } from "@/hooks/auth";
 import { authReducer, createInitialState } from "@/reducers/authReducer";
 import { validateForm } from "@/utils/authValidation";
 import { handleAuthRequest, parseServerErrors } from "@/services/authService";
-import { skip } from "node:test";
 import type { DefaultConfig } from "@/constants/types";
 
 export const useAuthForm = (formId: "login" | "signup") => {
