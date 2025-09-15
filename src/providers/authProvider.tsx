@@ -1,4 +1,5 @@
 import type {
+  DefaultConfig,
   FetchResponse,
   FetchSuccess,
   GetUserResponse,
@@ -40,9 +41,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setUser(null);
   };
 
-  const checkAuthHandler = async () => {
+  const checkAuthHandler = async (config?: DefaultConfig) => {
     const accessResponse = (await refreshRequest({
       skipErrorHandler: true,
+      ...config,
     })) as FetchResponse<RefreshResponse>;
     if (isFetchError(accessResponse)) {
       return setNotAuthed();

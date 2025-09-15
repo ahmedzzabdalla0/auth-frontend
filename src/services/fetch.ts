@@ -4,27 +4,20 @@ import {
   RequestOptions,
   type EndpointInterface,
 } from "@/constants/endpoints";
-import type { ErrorFetchService } from "@/constants/types";
+import type { ErrorFetchService, DefaultConfig } from "@/constants/types";
 
 interface DataInterface {
   [key: string]: string | number | boolean | object | null;
 }
 
-const defaultConfig = {
+export const defaultConfig = {
   headers: {},
   skipSuccessHandler: false,
   skipErrorHandler: false,
   defaultErrorMessage: "",
   defaultSuccessMessage: "",
   access_token: null,
-} as {
-  headers: { [key: string]: string };
-  skipSuccessHandler: boolean;
-  skipErrorHandler: boolean;
-  defaultErrorMessage: string;
-  defaultSuccessMessage: string;
-  access_token: string | null;
-};
+} as DefaultConfig;
 
 const baseURL = import.meta.env.VITE_BACKEND_API_URL;
 

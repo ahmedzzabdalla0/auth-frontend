@@ -47,7 +47,7 @@ export type AuthContextType = {
   actions: {
     loginHandler: (args: { access_token: string; user: StoredUser }) => void;
     setNotAuthed: () => void;
-    checkAuthHandler: () => Promise<void>;
+    checkAuthHandler: (config?: { [key: string]: any }) => Promise<void>;
   };
 };
 
@@ -83,3 +83,12 @@ export type AuthAction =
   | { type: "SET_SUBMITTING"; isSubmitting: boolean }
   | { type: "CLEAR_ERRORS" }
   | { type: "RESET_FORM"; formId: "login" | "signup" };
+
+export type DefaultConfig = Partial<{
+  headers: { [key: string]: string };
+  skipSuccessHandler: boolean;
+  skipErrorHandler: boolean;
+  defaultErrorMessage: string;
+  defaultSuccessMessage: string;
+  access_token: string | null;
+}>;

@@ -3,6 +3,8 @@ import { useAuth } from "@/hooks/auth";
 import { authReducer, createInitialState } from "@/reducers/authReducer";
 import { validateForm } from "@/utils/authValidation";
 import { handleAuthRequest, parseServerErrors } from "@/services/authService";
+import { skip } from "node:test";
+import type { DefaultConfig } from "@/constants/types";
 
 export const useAuthForm = (formId: "login" | "signup") => {
   const {
@@ -40,7 +42,10 @@ export const useAuthForm = (formId: "login" | "signup") => {
         const serverErrors = parseServerErrors(error);
         dispatch({ type: "SET_ERRORS", errors: serverErrors });
       } else {
-        await checkAuthHandler();
+        await checkAuthHandler({
+          skipErrorHandler: false,
+          defaultErrorMessage: "Safari blocks cross-site cookies.",
+        } as DefaultConfig);
       }
     } finally {
       dispatch({ type: "SET_SUBMITTING", isSubmitting: false });
