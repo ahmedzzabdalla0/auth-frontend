@@ -16,7 +16,7 @@ export default function Button({
     <button
       type={type}
       className={twMerge(
-        "p-2 rounded-md bg-primary text-bright font-highlight-accent disabled:opacity-50 disabled:cursor-none hover:bg-primary/90 transition-colors",
+        "p-2 rounded-md bg-primary text-bright font-highlight-accent disabled:opacity-50 disabled:cursor-auto hover:bg-primary/90 transition-colors",
         className
       )}
       {...props}
