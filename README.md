@@ -1,6 +1,6 @@
 # Authentication Task – Full Task Documentation
 
-## ⚠️ Safari Cookie Limitation (Current Deployment Setup)
+## ⚠️ Safari Cookie Limitation in Current Production Setup
 
 When testing the app on Safari, the `refresh_token` cookie may not be saved.
 This is **not caused by the code or implementation** but by Safari’s default behavior: it blocks cross-site cookies when the frontend and backend are served from different domains.
@@ -15,9 +15,15 @@ This is **not caused by the code or implementation** but by Safari’s default b
 
 This is not an implementation issue. The problem will be solved automatically once both the **frontend** and **backend** are hosted under the same domain (e.g., `api.example.com` and `app.example.com`).
 
----
-
 ## 🚀 Running the Project Locally
+
+### Ports Requirement
+
+Before running the project, make sure the following ports are free:
+
+- **5173** → React (Vite)
+- **27017** → MongoDB
+- **3000** → NestJS
 
 ### Backend (NestJS + MongoDB)
 
@@ -90,7 +96,14 @@ It includes features such as signup, login, token refresh, session management, a
 The backend is powered by **NestJS, TypeScript, MongoDB (local via Docker)**, and the frontend is built with a **React-based atomic structure**.  
 The project also provides a **Swagger API documentation** and is deployed for live testing.
 
----
+## 🔐 Token Storage Strategy
+
+For security and best practices:
+
+- The **refresh token** is stored in a secure, HttpOnly cookie so it cannot be accessed by client-side JavaScript.
+- The **access token** is obtained on login/refresh and kept only in memory during the application’s runtime. In the frontend, it is managed through a **React Context Provider**, which makes it available to the application without persisting it in localStorage or sessionStorage.
+
+This approach minimizes the risk of token theft through XSS while still allowing smooth authentication flows.
 
 ## Backend
 
@@ -193,12 +206,14 @@ All other sessions will be logged out once their access token expires, the page 
 ### Features
 
 - **Route Protection**
+
   - If a user tries to access any route, authentication and authorization are verified.
   - If logged in and navigates to `login`/`signup`, they are redirected to the dashboard.
   - If not authenticated, accessing protected routes redirects them back to `login`.
 
 - **Atomic Design Structure**
   - Organized and scalable folder structure for components.
+  - App Router Structure with layouts and nested routes.
 
 ---
 
