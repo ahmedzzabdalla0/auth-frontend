@@ -1,6 +1,6 @@
 # Authentication Task – Full Task Documentation
 
-## ⚠️ Safari Cookie Limitation in Current Production Setup
+## ⚠️ Safari Cookie Limitation (Current Deployment Setup)
 
 When testing the app on Safari, the `refresh_token` cookie may not be saved.
 This is **not caused by the code or implementation** but by Safari’s default behavior: it blocks cross-site cookies when the frontend and backend are served from different domains.
@@ -10,6 +10,10 @@ This is **not caused by the code or implementation** but by Safari’s default b
   **Safari > Preferences > Privacy > Prevent cross-site tracking**
 
 🟥 **Recommendation:** For the best experience and faster performance, I strongly suggest running the project locally. Once frontend and backend are hosted under the same domain, this limitation will no longer occur.
+
+### How to Fix in Production
+
+This is not an implementation issue. The problem will be solved automatically once both the **frontend** and **backend** are hosted under the same domain (e.g., `api.example.com` and `app.example.com`).
 
 ---
 
@@ -78,10 +82,6 @@ This is **not caused by the code or implementation** but by Safari’s default b
 - **Frontend:** [http://localhost:5173](http://localhost:5173)
 - **Backend:** [http://localhost:3000](http://localhost:3000)
 - **Swagger API Docs:** [http://localhost:3000/api](http://localhost:3000/api)
-
-### How to Fix in Production
-
-This is not an implementation issue. The problem will be solved automatically once both the **frontend** and **backend** are hosted under the same domain (e.g., `api.example.com` and `app.example.com`).
 
 ## Overview
 
@@ -193,7 +193,6 @@ All other sessions will be logged out once their access token expires, the page 
 ### Features
 
 - **Route Protection**
-
   - If a user tries to access any route, authentication and authorization are verified.
   - If logged in and navigates to `login`/`signup`, they are redirected to the dashboard.
   - If not authenticated, accessing protected routes redirects them back to `login`.
